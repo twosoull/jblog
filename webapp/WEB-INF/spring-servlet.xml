@@ -45,8 +45,8 @@
 	</bean>
 
 	<!-- url매핑 -->
-	<mvc:resources mapping="/upload/**" location="file:C:/javaStudy/upload/" />
-
+	<mvc:resources mapping="/upload/**" location="file:C:/javaStudy/workspace_web/jblog/webapp/assets/uploadfile/" />
+	
 
 
 	<mvc:annotation-driven>

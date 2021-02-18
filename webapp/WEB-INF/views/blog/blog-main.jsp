@@ -21,25 +21,24 @@
 			<div id="profilecate_area">
 				<div id="profile">
 					
-					<!-- 기본이미지 -->
+					<!-- 기본이미지
 					<img id="proImg" src="${pageContext.request.contextPath}/assets/images/spring-logo.jpg">
+					 -->
 					
 					<!-- 사용자업로드 이미지 -->
-					<%-- <img id="proImg" src=""> --%>
+					<img id="proImg" src="${pageContext.request.contextPath}/upload/${bMap.blogVo.logoFile}"> 
 					
-					<div id="nick">정우성(hijava)님</div>
+					<div id="nick">${bMap.blogVo.username}(${bMap.blogVo.id})님</div>
 				</div>
 				<div id="cate">
 					<div class="text-left">
 						<strong>카테고리</strong>
 					</div>
 					<ul id="cateList" class="text-left">
-						<li><a href="$}">카테고리5</a></li>
-						<li><a href="$}">카테고리4</a></li>
-						<li><a href="$}">카테고리3</a></li>
-						<li><a href="$}">카테고리2</a></li>
-						<li><a href="$}">카테고리1</a></li>
-						<li><a href="$}">미분류</a></li>
+					
+					<c:forEach items="${bMap.categoryList}" var="vo">
+						<li><a href="${pageContext.request.contextPath}/${bMap.blogVo.id}?cateNo=${vo.cateNo}&cateName=${vo.cateName}">${vo.cateName}</a></li>
+					</c:forEach>
 						
 					</ul>
 				</div>

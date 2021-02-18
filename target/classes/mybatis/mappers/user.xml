@@ -15,6 +15,17 @@
 		]]>
 	</insert>
 	
+	
+	<select id="selectUserList" resultType="UserVo">
+		<![CDATA[
+			select userno,
+			       id
+			       username
+			from users			
+		]]>
+	
+	</select>
+	
 	<select id="selectUserOne" parameterType="UserVo" resultType="UserVo">
 		<![CDATA[
 			select userno,

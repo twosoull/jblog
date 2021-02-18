@@ -87,8 +87,35 @@ create table comments(
 /**insert**/
 
 insert into users
-values(SEQ_USERS_NO.nextval,'id','userName',1234,sysdate);
+values(SEQ_USERS_NO.nextval,
+       'id',
+       'userName',
+       1234,
+       sysdate
+       );
+       
+insert into blog
+values('id',
+       '블로그입니다',
+       '파일경로');
 
+/*user select*/
+select userno,
+       id,
+       username
+from users
+where password = 1234
+and id = 'id';
 
 select *
-from users; 
+from users;
+
+select userno,
+       id
+from users;
+
+select *
+from blog;
+
+delete from blog;
+delete from users;

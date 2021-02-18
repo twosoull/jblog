@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.javaex.service.BlogService;
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
 
@@ -17,22 +18,31 @@ public class UsersController {
 
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired
+	private BlogService blogService;
+	
 	// 회원가입폼
-	@RequestMapping(value = "/joinform", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/joinForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String joinForm() {
 		System.out.println("[UserController ] : joinForm");
 
 		return "user/joinForm";
 	}
 
-	// 회원가입
+	// 회원가입 + 블로그 생성
 	@RequestMapping(value = "/join", method = { RequestMethod.GET, RequestMethod.POST })
 	public String join(@ModelAttribute UserVo userVo) {
 		System.out.println("[UserController ] : join");
-
+		//회원가입 (users 테이블 저장)
 		userService.join(userVo);
-
+		//블로그생성
+		blogService.createBlog(userVo);
+		
+		//카테고리생성은 블로그가 생성되면 같이 만들어진다고 생각해서 blogService에 배치
+		
+		
+		
 		return "user/joinSuccess";
 	}
 
