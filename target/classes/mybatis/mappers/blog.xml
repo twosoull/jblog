@@ -20,10 +20,25 @@
 		<![CDATA[
 			insert into blog
 			values(#{id},
-			       #{blogTitle},
-			       #{logoFile})			
+			       #{blogTitle}
+			       )			
 		]]>
 
 	</insert>
-
+	<!-- 타이틀 사진 업데이트 -->
+	<update id="updateBlog" parameterType="BlogVo">
+		<![CDATA[
+			update blog
+			SET blogtitle = #{blogTitle},
+			
+		]]>
+		<if test="logoFile != null and logoFile != '' ">
+			logofile = #{logoFile}
+		</if>
+		<![CDATA[
+			where id = #{id}			
+		]]>
+					
+	
+	</update>
 </mapper>

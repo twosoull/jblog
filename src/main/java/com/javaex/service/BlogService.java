@@ -1,11 +1,18 @@
 package com.javaex.service;
 
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.dao.BlogDao;
 import com.javaex.dao.CategoryDao;
@@ -27,9 +34,8 @@ public class BlogService {
 
 		String id = userVo.getId();
 		String blogTitle = userVo.getUserName() + "의 블로그입니다";
-		String logofile = "spring-logo.jpg";
 		
-		BlogVo blogVo = new BlogVo(id, blogTitle, logofile);
+		BlogVo blogVo = new BlogVo(id, blogTitle);
 
 		blogDao.insertBlog(blogVo);
 		
@@ -42,34 +48,78 @@ public class BlogService {
 	}
 	
 	//id값을 주고 blog 테이블 값을 vo로 받는다
-	public Map<String,Object> blog(String userId) {
+	public List<CategoryVo> blogCateList(String userId) {
 		System.out.println("[BlogService ] : blog");
-		Map<String,Object> map = new HashMap<String,Object>();
-		
-		//블로그
-		BlogVo blogVo = blogDao.selectOne(userId);
-		//카테고리
+
 		List<CategoryVo> categoryList = categoryDao.selectCategoryList(userId);
-		
-		//컨트롤러와 서비스를 떼어내고 생각했을때에
-		//블로그가 있다 없다를 판단해주는 것은 서비스의 일이고
-		//어디로 갈지는 컨트롤러가 판단한다
+
 		System.out.println(categoryList);
-		boolean blog;
-		if(blogVo != null){
-			blog = true;
-			
-			map.put("blogVo", blogVo);
-			map.put("categoryList", categoryList);
-			map.put("blog", blog);
-		}else {
-			blog = false;
-		}
+	
 		
-		//map으로 묶기
-		
-		
-		return map;
+		return categoryList ;
 		
 	}
+	// 블로그 유무확인 + 블로그 네임 아이디 정보
+		public Map<String,Object> checkBlog(String userId) {
+			System.out.println("[BlogService ] : check");
+			BlogVo blogVo = blogDao.selectOne(userId);
+			boolean blog;
+			if (blogVo != null) {
+				blog = true;
+
+			} else {
+				blog = false;
+			}
+			Map<String,Object> map = new HashMap<String,Object>();
+			
+			map.put("blog",blog);
+			map.put("blogVo",blogVo);
+			
+			return map;
+		}
+		
+		//기본설정수정
+		public void basicUpdate(String userId, String blogTitle, MultipartFile file) {
+			System.out.println("[BlogService ] : basicUpdate");
+			String logoFile = "";
+			System.out.println("확인 :"+file.getOriginalFilename());
+			
+			BlogVo blogVo = new BlogVo(userId, blogTitle);
+			
+			
+			//logofile 이름만들기
+			if(!"".equals(file.getOriginalFilename())) {
+			System.out.println("in");
+			String pathName = "C:\\javaStudy\\workspace_web\\jblog\\webapp\\assets\\uploadfile";
+			String orgName = file.getOriginalFilename();
+			String exName = orgName.substring(orgName.lastIndexOf("."));
+			
+			//저장할때의 이름
+			logoFile =  System.currentTimeMillis()+UUID.randomUUID().toString()+exName;
+			blogVo.setLogoFile(logoFile);
+			
+		
+			
+				try {
+					byte[] fileData= file.getBytes();
+					
+					OutputStream out = new FileOutputStream(pathName+"\\"+logoFile);
+					BufferedOutputStream bos = new BufferedOutputStream(out);
+					
+					bos.write(fileData);
+					bos.close();
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			blogDao.update(blogVo);
+			
+			
+		}
+		
+		
 }

@@ -3,7 +3,7 @@
 
 
 <mapper namespace= "category">
-	<insert id="insertCategory" parameterType="string">
+	<insert id="insertfirCategory" parameterType="string">
 		<![CDATA[
 			insert into category
 			values( SEQ_CATEGORY_NO.nextval,
@@ -26,4 +26,17 @@
 	
 	
 	</select>
+	
+	<insert id="insertCategory" parameterType="CategoryVo">
+		<![CDATA[
+			insert into category
+			values( SEQ_CATEGORY_NO.nextval,
+			        #{id},
+			        #{cateName},
+			        #{description},
+			        sysdate
+			        )		
+		]]>
+	
+	</insert>
 </mapper>

@@ -3,6 +3,7 @@ package com.javaex.dao;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.vo.BlogVo;
 
@@ -16,9 +17,8 @@ public class BlogDao {
 		System.out.println("[BlogDao] : insertBlog");
 		System.out.println(blogVo);
 		
-		int count = sqlSession.insert("blog.insertBlog",blogVo);
+		sqlSession.insert("blog.insertBlog",blogVo);
 		
-		System.out.println(count);
 	}
 	
 	//userId를 이용한 값받기	
@@ -27,6 +27,15 @@ public class BlogDao {
 		System.out.println(userId);
 		
 		return sqlSession.selectOne("blog.selectBlogOne",userId);
+		
+	}
+
+	public void update(BlogVo blogVo) {
+		System.out.println("[BlogDao] : update");
+		System.out.println(blogVo);
+		
+		sqlSession.update("blog.updateBlog",blogVo);
+		
 		
 	}
 

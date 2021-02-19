@@ -18,7 +18,7 @@ public class CategoryDao {
 	public void insertfirCategory(String id) {
 		System.out.println("[CategoryDao] :insertCategory");
 		
-		sqlSession.insert("category.insertCategory",id);
+		sqlSession.insert("category.insertfirCategory",id);
 		
 	}
 
@@ -28,6 +28,14 @@ public class CategoryDao {
 		return sqlSession.selectList("category.selectCategoryList", userId);
 		
 		
+	}
+
+	public void insertCategory(CategoryVo categoryVo) {
+		System.out.println("[CategoryDao] : insertCategory()");
+		
+		int count = sqlSession.insert("category.insertCategory",categoryVo);
+		
+		System.out.println(count);
 	}
 
 }

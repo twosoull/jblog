@@ -9,7 +9,13 @@ public class BlogVo {
 	private String username;
 	
 	
+	public BlogVo() {
+		super();
+	}
 	
+	
+
+
 	public BlogVo(String id, String blogTitle, String logoFile, String username) {
 		super();
 		this.id = id;
@@ -18,10 +24,6 @@ public class BlogVo {
 		this.username = username;
 	}
 	
-
-	public BlogVo() {
-		super();
-	}
 
 	public BlogVo(String id, String blogTitle) {
 		super();

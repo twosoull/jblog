@@ -119,3 +119,8 @@ from blog;
 
 delete from blog;
 delete from users;
+
+update blog
+SET blogtitle = '밥먹었블로그',
+logofile = ''
+where id = '초사이언';
