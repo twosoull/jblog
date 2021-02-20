@@ -22,7 +22,7 @@
 				<div id="profile">
 
 					<c:choose>
-						<c:when test="${bMap.blogVo.logoFile == null}">
+						<c:when test="${'no' eq bMap.blogVo.logoFile }">
 							<img id="proImg" src="${pageContext.request.contextPath}/assets/images/spring-logo.jpg">
 						</c:when>
 						<c:otherwise>

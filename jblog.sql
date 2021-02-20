@@ -95,9 +95,9 @@ values(SEQ_USERS_NO.nextval,
        );
        
 insert into blog
-values('id',
+values('헬로',
        '블로그입니다',
-       '파일경로');
+       'spring-logo.jpg');
 
 insert into category
 values( SEQ_CATEGORY_NO.nextval,
@@ -108,7 +108,11 @@ values( SEQ_CATEGORY_NO.nextval,
         );
         
 insert into post
-values(seq_post_no.nextval,6,'치킨많이먹기','치킨에 대해 얘기해볼게요',sysdate);        
+values(seq_post_no.nextval,
+       6,
+       '치킨많이먹기',
+       '치킨에 대해 얘기해볼게요',
+       sysdate);        
 /*user select*/
 select userno,
        id,

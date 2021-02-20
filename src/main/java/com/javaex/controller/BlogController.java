@@ -70,23 +70,6 @@ public class BlogController {
 	}
 
 
-	// 글작성 폼
-	@RequestMapping(value = "/{userId}/admin/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
-	public String adminWriteForm(@PathVariable String userId, Model model) {
-		System.out.println("[BlogController] : adminWriteForm()");
-
-		Map<String, Object> bMap = blogService.checkBlog(userId);
-
-		boolean blog = (boolean) bMap.get("blog");
-
-		if (blog == true) {
-
-			model.addAttribute("bMap", bMap);
-
-			return "/blog/admin/blog-admin-write";
-		} else {
-			return "redirect:/";
-		}
-	}
+	
 
 }

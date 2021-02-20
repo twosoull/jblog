@@ -20,8 +20,9 @@
 		<![CDATA[
 			insert into blog
 			values(#{id},
-			       #{blogTitle}
-			       )			
+			       #{blogTitle},
+       			   'spring-logo.jpg')
+			       			
 		]]>
 
 	</insert>

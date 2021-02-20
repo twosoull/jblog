@@ -22,4 +22,12 @@ public class PostDao {
 	
 	}
 
+	public void insertPost(PostVo postVo) {
+		System.out.println("[PostDao] : insertPost()");
+		System.out.println(postVo);
+		
+		sqlSession.insert("post.insertPost",postVo);
+		
+	}
+
 }

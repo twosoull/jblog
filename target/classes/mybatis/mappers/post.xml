@@ -10,4 +10,16 @@
 			where cateno = #{cateNo}
 		]]>
 	</select>
+	
+	<insert id="insertPost" parameterType="PostVo">
+		<![CDATA[
+			insert into post
+			values(seq_post_no.nextval,
+			       #{cateNo},
+			       #{postTitle},
+			       #{postContent},
+			       sysdate)			
+		]]>
+	
+	</insert>
 </mapper>
