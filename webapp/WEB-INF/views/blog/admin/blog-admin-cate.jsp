@@ -99,6 +99,35 @@
 </body>
 
 <script type="text/javascript">
+	$("document").ready(function(){
+		
+		var id = $("#cate_id").val();
+		
+		$.ajax({
+
+			url : "${pageContext.request.contextPath }/"+id+"/admin/category/list", //컨트롤러의 url과 파라미터
+			type : "post", // 겟 포스트
+			//contentType : "application/json",
+			data : {
+				id : id
+			},
+
+			//dataType : "json",
+			success : function(categoryList) { //성공시
+				console.log(categoryVo);
+				//값이 넘어오지마 포스트 수도 가져와야한다 아마 맵으로 데려와야 할듯
+				render(categoryVo,"up");
+			},
+			error : function(XHR, status, error) { //실패
+				console.error(status + " : " + error);
+			}
+		});
+		
+		
+	});
+
+
+
 	$("#btnAddCate").on("click",function(){
 		console.log("버튼클릭");
 		
@@ -118,8 +147,10 @@
 			},
 
 			//dataType : "json",
-			success : function(guestVo) { //성공시
-			
+			success : function(categoryVo) { //성공시
+				console.log(categoryVo);
+				//값이 넘어오지마 포스트 수도 가져와야한다 아마 맵으로 데려와야 할듯
+				render(categoryVo,"up");
 			},
 			error : function(XHR, status, error) { //실패
 				console.error(status + " : " + error);
@@ -127,7 +158,24 @@
 		});
 	});
 	
-	
+	function render(categoryVo,updown){
+		str = "";
+		str += "<tr>";
+		str += "<td>"+categoryVo.cateNo+"</td>";
+		str += "<td>"+categoryVo.cateName+"</td>";
+		str += "<td>"+categoryVo.postCnt+"</td>";
+		str += "<td>"+categoryVo.description+"</td>";
+		str += "<td class='text-center'><img class='btnCateDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+		str += "</tr>";
+		
+		if(updown == "up"){
+			
+			$("#cateList").prepend(str);
+		}else if(updown == "down"){
+			
+			$("#cateList").append(str);
+		}
+	};
 	
 </script>
 

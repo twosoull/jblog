@@ -29,13 +29,26 @@ public class CategoryDao {
 		
 		
 	}
-
+	
 	public void insertCategory(CategoryVo categoryVo) {
 		System.out.println("[CategoryDao] : insertCategory()");
 		
-		int count = sqlSession.insert("category.insertCategory",categoryVo);
+		sqlSession.insert("category.insertCategory",categoryVo);
 		
-		System.out.println(count);
+	}
+	
+	//vo postCnt 포함
+	public CategoryVo selectCategory(int cateNo) {
+		System.out.println("[CategoryDao] : selectCategory()");
+		
+		return sqlSession.selectOne("category.selectCategory",cateNo);
+	}
+	//list postCnt 포함
+	public void selectCategoryList2(String id) {
+		System.out.println("[CategoryDao] : selectCategoryList2()");
+		
+		sqlSession.selectList("category.selectCategoryList2",id);
+		
 	}
 
 }

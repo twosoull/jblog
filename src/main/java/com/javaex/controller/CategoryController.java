@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.BlogService;
 import com.javaex.service.CategoryService;
@@ -41,18 +43,27 @@ public class CategoryController {
 			}
 
 		}
-		
+		@ResponseBody
 		@RequestMapping(value = "/{userId}/admin/category/write", method = { RequestMethod.GET, RequestMethod.POST })
-		public String adminCategoryWrite(@PathVariable String userId, @ModelAttribute CategoryVo categoryVo) {
+		public CategoryVo adminCategoryWrite(@PathVariable String userId, @ModelAttribute CategoryVo categoryVo) {
 			System.out.println("[BlogController] : adminCategoryWrite");
-			System.out.println(categoryVo);
+			System.out.println("before"+categoryVo);
 			System.out.println(userId);
-
-			categoryService.adminCategoryWrite(categoryVo);
 			
-			return "";
+			
+			
+			return categoryService.adminCategoryWrite(categoryVo);
 		}
 		
+		@RequestMapping(value = "/{userId}/admin/category/list", method = { RequestMethod.GET, RequestMethod.POST })
+		public CategoryVo adminCategoryList(@PathVariable String userId,
+											@RequestParam("id")String id ) {
+			System.out.println("[BlogController] : adminCategoryList");
+			System.out.println(id);
+			
+			categoryService.adminCategoryList(id);
+			return null;
+		}
 		
 		
 		

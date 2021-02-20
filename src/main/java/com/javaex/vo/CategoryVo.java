@@ -7,6 +7,10 @@ public class CategoryVo {
 	private String description; //null ok
 	private String regDate;
 	
+	//postCnt
+	private int postCnt;
+	
+	
 	
 	public CategoryVo() {
 		super();
@@ -20,6 +24,16 @@ public class CategoryVo {
 		this.cateName = cateName;
 		this.description = description;
 		this.regDate = regDate;
+	}
+
+	
+	public int getPostCnt() {
+		return postCnt;
+	}
+
+
+	public void setPostCnt(int postCnt) {
+		this.postCnt = postCnt;
 	}
 
 

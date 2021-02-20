@@ -12,11 +12,21 @@ public class CategoryService {
 	@Autowired
 	private CategoryDao categoryDao;
 	
-	public void adminCategoryWrite(CategoryVo categoryVo) {
+	public CategoryVo adminCategoryWrite(CategoryVo categoryVo) {
 		System.out.println("[CategoryService] : adminCategoryWrite()" );
 		
 		categoryDao.insertCategory(categoryVo);
+		int cateNo=categoryVo.getCateNo();
 		
+		return categoryDao.selectCategory(cateNo);
+		
+		
+	}
+
+	public void adminCategoryList(String id) {
+		System.out.println("[CategoryService] : CategoryService()" );
+		
+		categoryDao.selectCategoryList2(id);
 	}
 
 	

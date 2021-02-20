@@ -28,9 +28,15 @@
 	</select>
 	
 	<insert id="insertCategory" parameterType="CategoryVo">
+		<selectKey keyProperty="cateNo" resultType="int" order="BEFORE">
+				select seq_category_no.nextval
+				from dual
+		</selectKey>
+		
+		
 		<![CDATA[
 			insert into category
-			values( SEQ_CATEGORY_NO.nextval,
+			values( #{cateNo},
 			        #{id},
 			        #{cateName},
 			        #{description},
@@ -39,4 +45,24 @@
 		]]>
 	
 	</insert>
+	
+	<select id="selectCategory" parameterType="int" resultType="CategoryVo">
+		<![CDATA[
+				select c.catename,
+				       c.id,
+				       c.description,
+				       c.reg_date as regDate,
+				       c.cateNo,
+				       nvl(b.count,0) as postCnt
+				from category c left join (select cateno,
+				                                  count(*) as count
+				                            from post
+				                            group by cateno)b
+				on c.cateno = b.cateno
+				where c.cateno = #{cateNo}
+		]]>
+		
+	</select>
+	
+	<select id="selectCategoryList2" parameterType="string" resultType="CategoryVo"></select>
 </mapper>
