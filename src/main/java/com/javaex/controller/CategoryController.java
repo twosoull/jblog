@@ -1,5 +1,6 @@
 package com.javaex.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,16 +56,27 @@ public class CategoryController {
 			return categoryService.adminCategoryWrite(categoryVo);
 		}
 		
+		@ResponseBody
 		@RequestMapping(value = "/{userId}/admin/category/list", method = { RequestMethod.GET, RequestMethod.POST })
-		public CategoryVo adminCategoryList(@PathVariable String userId,
+		public List<CategoryVo> adminCategoryList(@PathVariable String userId,
 											@RequestParam("id")String id ) {
 			System.out.println("[BlogController] : adminCategoryList");
 			System.out.println(id);
 			
-			categoryService.adminCategoryList(id);
-			return null;
+			return categoryService.adminCategoryList(id);
+			
 		}
 		
+		@ResponseBody
+		@RequestMapping(value = "/{userId}/admin/category/remove", method = { RequestMethod.GET, RequestMethod.POST })
+		public int adminCategoryRemove(@PathVariable String userId,
+										@RequestParam("cateno")int cateNo) {
+			System.out.println("[BlogController] : adminCategoryRemove");
+			System.out.println(cateNo);
+			
+			return categoryService.adminCategoryRemove(cateNo);
+			
+		}
 		
 		
 		

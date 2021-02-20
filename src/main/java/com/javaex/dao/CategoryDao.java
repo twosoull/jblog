@@ -14,6 +14,7 @@ public class CategoryDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	
 	//첫 카테고리 생성
 	public void insertfirCategory(String id) {
 		System.out.println("[CategoryDao] :insertCategory");
@@ -44,11 +45,20 @@ public class CategoryDao {
 		return sqlSession.selectOne("category.selectCategory",cateNo);
 	}
 	//list postCnt 포함
-	public void selectCategoryList2(String id) {
+	public List<CategoryVo> selectCategoryList2(String id) {
 		System.out.println("[CategoryDao] : selectCategoryList2()");
 		
-		sqlSession.selectList("category.selectCategoryList2",id);
+		return sqlSession.selectList("category.selectCategoryList2",id);
 		
+	}
+	
+	//카테고리 삭제
+	public int deleteCaterory(int cateNo) {
+		System.out.println("[CategoryDao] : deleteCaterory()");
+		
+		return sqlSession.delete("category.deleteCategory",cateNo);
+		
+		 
 	}
 
 }

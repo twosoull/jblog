@@ -46,20 +46,7 @@
 					</thead>
 					<tbody id="cateList">
 						<!-- 리스트 영역 -->
-						<tr>
-							<td>1</td>
-							<td>자바프로그래밍</td>
-							<td>7</td>
-							<td>자바기초와 객체지향</td>
-							<td class='text-center'><img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>오라클</td>
-							<td>5</td>
-							<td>오라클 설치와 sql문</td>
-							<td class='text-center'><img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg"></td>
-						</tr>
+						
 						<!-- 리스트 영역 -->
 					</tbody>
 				</table>
@@ -99,6 +86,8 @@
 </body>
 
 <script type="text/javascript">
+
+	//웹이 준비되면 자료뿌리기
 	$("document").ready(function(){
 		
 		var id = $("#cate_id").val();
@@ -114,9 +103,13 @@
 
 			//dataType : "json",
 			success : function(categoryList) { //성공시
-				console.log(categoryVo);
-				//값이 넘어오지마 포스트 수도 가져와야한다 아마 맵으로 데려와야 할듯
-				render(categoryVo,"up");
+			
+				console.log(categoryList);
+				
+			for(var i = 0; i<categoryList.length; i++){
+				
+				render(categoryList[i],"down");
+			}
 			},
 			error : function(XHR, status, error) { //실패
 				console.error(status + " : " + error);
@@ -125,9 +118,9 @@
 		
 		
 	});
+	
 
-
-
+	//카테고리 생성
 	$("#btnAddCate").on("click",function(){
 		console.log("버튼클릭");
 		
@@ -149,8 +142,41 @@
 			//dataType : "json",
 			success : function(categoryVo) { //성공시
 				console.log(categoryVo);
-				//값이 넘어오지마 포스트 수도 가져와야한다 아마 맵으로 데려와야 할듯
+				
 				render(categoryVo,"up");
+				
+				$("[name='name']").val("");
+				$("[name='desc']").val("");
+			},
+			error : function(XHR, status, error) { //실패
+				console.error(status + " : " + error);
+			}
+		});
+	});
+	
+	//삭제
+	$("#cateList").on("click","img",function(){
+		
+		var id = $("#cate_id").val();
+		var cateno = $(this).data("cateno");
+		
+		$.ajax({
+
+			url : "${pageContext.request.contextPath }/"+id+"/admin/category/remove", //컨트롤러의 url과 파라미터
+			type : "post", // 겟 포스트
+			//contentType : "application/json",
+			data : {
+				cateno : cateno
+			},
+
+			//dataType : "json",
+			success : function(count) { //성공시
+				if(count == 0){
+					alert("삭제할 수 없습니다.");
+				}else{
+					$("#c-"+cateno).remove();
+				}
+				
 			},
 			error : function(XHR, status, error) { //실패
 				console.error(status + " : " + error);
@@ -160,12 +186,12 @@
 	
 	function render(categoryVo,updown){
 		str = "";
-		str += "<tr>";
-		str += "<td>"+categoryVo.cateNo+"</td>";
-		str += "<td>"+categoryVo.cateName+"</td>";
-		str += "<td>"+categoryVo.postCnt+"</td>";
-		str += "<td>"+categoryVo.description+"</td>";
-		str += "<td class='text-center'><img class='btnCateDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+		str += "<tr id = 'c-"+categoryVo.cateNo+"'>";
+		str += "	<td>"+categoryVo.cateNo+"</td>";
+		str += "	<td>"+categoryVo.cateName+"</td>";
+		str += "	<td>"+categoryVo.postCnt+"</td>";
+		str += "	<td>"+categoryVo.description+"</td>";
+		str += "	<td class='text-center'><img  data-cateno='"+categoryVo.cateNo+"' class='btnCateDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
 		str += "</tr>";
 		
 		if(updown == "up"){

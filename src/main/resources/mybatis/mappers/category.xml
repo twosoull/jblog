@@ -64,5 +64,30 @@
 		
 	</select>
 	
-	<select id="selectCategoryList2" parameterType="string" resultType="CategoryVo"></select>
+	<select id="selectCategoryList2" parameterType="string" resultType="CategoryVo">
+		<![CDATA[
+			select c.catename,
+			       c.id,
+			       c.description,
+			       c.reg_date,
+			       c.cateNo,
+			       nvl(b.count,0) as postCnt
+			from category c left join (select cateno,
+			                                  count(*) as count
+			                            from post
+			                            group by cateno)b
+			on c.cateno = b.cateno
+			where id = #{id}
+			order by c.cateno desc		
+		
+		]]>
+	</select>
+	
+	<delete id="deleteCategory" parameterType="int">
+		<![CDATA[
+			delete from category
+			where cateno = #{cateNo}			
+		]]>	
+	
+	</delete>
 </mapper>

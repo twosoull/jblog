@@ -67,7 +67,7 @@ create table post(
     cateNo number,
     postTitle varchar2(300) not null,
     postContent varchar2(4000),
-    regDate date not null,
+    reg_date date not null,
     CONSTRAINT post_No_pk primary key(postNo),
     CONSTRAINT post_no_fk FOREIGN key(cateNo)
     REFERENCES category(cateNo)
@@ -101,7 +101,7 @@ values('id',
 
 insert into category
 values( SEQ_CATEGORY_NO.nextval,
-        '치킨맨',
+        '초사이안',
         '첫카테고리',
         '설명',
         sysdate
@@ -156,47 +156,17 @@ from(select cateno,
      where cateNo = 1)
 order by rnum desc;
 
-select cateno, count(*)
+
+select cateno,
+       count(*)
 from post
 group by cateNo;
-
-
-
 
 select *
 from post;
 
-select *
-from blog b ,(select c.catename,
-                     c.id,
-                     c.description,
-                     c.reg_date,
-                     c.cateNo, 
-                     p.cateNo,
-                     p.count
-                     from category c , (select cateno,
-                                        count(*) as count
-                                 from post
-                                 group by cateno) p
-              where c.cateno = p.cateno
-              and c.id = '치킨맨') cp
-where b.id = cp.id;
 
-delete from post;
 
-select c.catename,
-       c.id,
-       c.description,
-       c.reg_date,
-       c.cateNo, 
-       p.cateNo,
-       p.count
-from category c , (select cateno,
-                   count(*) as count
-                   from post
-                   group by cateno) p
-where c.cateno = p.cateno
-and c.id = '치킨맨';
 
 /*카테고리 리스트*/
 select c.catename,
@@ -204,16 +174,45 @@ select c.catename,
        c.description,
        c.reg_date,
        c.cateNo,
-       nvl(b.count,0)
+       nvl(b.count,0) as postCnt
 from category c left join (select cateno,
                                   count(*) as count
                             from post
                             group by cateno)b
-On c.cateno = b.cateno;
+on c.cateno = b.cateno
+where id = '치킨맨'
+order by c.cateno desc ;
+/**카테고리 하나**/
+select c.catename,
+       c.id,
+       c.description,
+       c.reg_date,
+       c.cateNo,
+       nvl(b.count,0) as postCnt
+from category c left join (select cateno,
+                                  count(*) as count
+                            from post
+                            group by cateno)b
+on c.cateno = b.cateno
+where c.cateno = 4;
 
-select cateno,
-       id,
-       catename,
-       description,
+
+
+
+/***delete***/
+
+delete from category
+where cateno = 22;
+
+/***/
+select postno,
+       cateNo,
+       posttitle,
+       postContent,
        reg_date as regDate
-from category;
+from post
+where cateno = 1;
+
+select count(*) as postCnt
+from post
+where cateno = 20;
