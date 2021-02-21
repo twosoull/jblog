@@ -18,7 +18,8 @@
 	<select id="selectCategoryList" parameterType="string" resultType="CategoryVo">
 		<![CDATA[
 			select cateno,
-			       catename
+			       catename,
+			       reg_date as redDate
 			from category
 			where id = #{userId}	
 			order by cateno desc		

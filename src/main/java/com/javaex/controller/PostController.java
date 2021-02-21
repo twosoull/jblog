@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.javaex.service.BlogService;
@@ -37,6 +39,8 @@ public class PostController {
 			Map<String, Object> bMap = blogService.checkBlog(userId);
 			
 			boolean blog = (boolean) bMap.get("blog");
+			
+			
 
 			if (blog == true) {
 				List<CategoryVo> categoryList =postService.adminWriteForm(userId);
@@ -60,5 +64,14 @@ public class PostController {
 		
 			return "redirect:/"+userId+"/admin/writeForm";
 			
+		}
+		@ResponseBody
+		@RequestMapping(value = "/{userId}/admin/post", method = { RequestMethod.GET, RequestMethod.POST })
+		public PostVo adminPost(@PathVariable String userId,
+								@RequestParam(value="postNo",required=false,defaultValue = "0")int postNo) {
+			System.out.println("[BlogController] : adminpost");
+			PostVo postVo = postService.adminPost(postNo);
+			
+			return postVo;
 		}
 }

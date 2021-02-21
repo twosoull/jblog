@@ -11,6 +11,19 @@
 		]]>
 	</select>
 	
+	<select id="selectPostList" parameterType="int" resultType="PostVo">
+		<![CDATA[
+			select postno,
+			       cateno,
+			       posttitle,
+			       postcontent,
+			       reg_date as regDate
+			from post
+			where cateNo= #{cateNo}	
+			order by postno desc
+		]]>
+	</select>
+	
 	<insert id="insertPost" parameterType="PostVo">
 		<![CDATA[
 			insert into post
@@ -19,7 +32,20 @@
 			       #{postTitle},
 			       #{postContent},
 			       sysdate)			
+			       
 		]]>
 	
 	</insert>
+	<select id="selectOnePost" parameterType="int" resultType="PostVo">
+		<![CDATA[
+			select postno,
+			       cateno,
+			       posttitle,
+			       postcontent,
+			       reg_date as regDate
+			from post
+			WHERE postno = #{postNo}		
+		]]>
+	</select>
+	
 </mapper>

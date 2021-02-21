@@ -1,7 +1,6 @@
 package com.javaex.service;
 
 import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,8 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.dao.BlogDao;
 import com.javaex.dao.CategoryDao;
+import com.javaex.dao.PostDao;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 import com.javaex.vo.UserVo;
 
 @Service
@@ -28,6 +29,9 @@ public class BlogService {
 	
 	@Autowired
 	private CategoryDao categoryDao;
+	
+	@Autowired
+	private PostDao postDao;
 
 	public void createBlog(UserVo userVo) {
 		System.out.println("[BlogService ] : createBlog");
@@ -119,6 +123,25 @@ public class BlogService {
 			blogDao.update(blogVo);
 			
 			
+		}
+
+		public List<PostVo> blogPostList(int cateNo, List<CategoryVo> categoryList) {
+			System.out.println("[BlogService ] : blogPostList");
+			System.out.println(cateNo);
+			
+			if(cateNo == 0){
+				for(int i = categoryList.size()-1; 0<= i; i--) {
+					
+					cateNo = categoryList.get(i).getCateNo();
+					System.out.println("for :" + cateNo);
+				}
+			}
+			System.out.println("after :" + cateNo);
+			
+			List<PostVo> list = postDao.selectPostList(cateNo);
+			
+			System.out.println(list);
+			return list;
 		}
 		
 		

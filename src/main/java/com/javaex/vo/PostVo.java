@@ -9,6 +9,7 @@ public class PostVo {
 	
 	//count
 	private String postCnt;
+	
 	public PostVo() {
 	
 	}

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.BlogService;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 
 @Controller
 public class BlogController {
@@ -22,15 +23,19 @@ public class BlogController {
 	private BlogService blogService;
 
 	@RequestMapping(value = "/{userId}", method = { RequestMethod.GET, RequestMethod.POST })
-	public String blog(@PathVariable String userId, Model model) {
+	public String blog(@PathVariable String userId, Model model,
+					   @RequestParam(value="cateNo",required=false,defaultValue="0")int cateNo	) {
 		System.out.println("[BlogController] : blog()");
 		Map<String, Object> bMap = blogService.checkBlog(userId);
 
 		boolean blog = (boolean) bMap.get("blog");
 		if (blog == true) {
 			List<CategoryVo> categoryList = blogService.blogCateList(userId);
-
+			
+			List<PostVo> postList = blogService.blogPostList(cateNo,categoryList);
+			
 			bMap.put("categoryList", categoryList);
+			bMap.put("postList", postList);
 			model.addAttribute("bMap", bMap);
 
 			return "/blog/blog-main";

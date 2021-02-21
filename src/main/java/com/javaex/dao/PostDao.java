@@ -30,4 +30,18 @@ public class PostDao {
 		
 	}
 
+	public List<PostVo> selectPostList(int cateNo) {
+		System.out.println("[PostDao] : selectPostList()");
+		
+		return sqlSession.selectList("post.selectPostList",cateNo);
+		
+	}
+
+	public PostVo selectOnePost(int postNo) {
+		System.out.println("[PostDao] : selectOnePost()");
+		
+		return sqlSession.selectOne("post.selectOnePost",postNo);
+		
+	}
+
 }

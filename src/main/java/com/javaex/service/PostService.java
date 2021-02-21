@@ -35,4 +35,12 @@ public class PostService {
 		
 	}
 
+
+
+	public PostVo adminPost(int postNo) {
+		System.out.println("[PostService] : adminPost()");
+		return postDao.selectOnePost(postNo);
+		
+	}
+
 }

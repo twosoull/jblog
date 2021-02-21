@@ -49,19 +49,27 @@
 			<!-- profilecate_area -->
 
 			<div id="post_area">
-
 				<div id="postBox" class="clearfix">
-					<div id="postTitle" class="text-left">
-						<strong>08.페이징</strong>
-					</div>
-					<div id="postDate" class="text-left">
-						<strong>2020/07/23</strong>
-					</div>
-					<div id="postNick">정우성(hijava)님</div>
+					<c:choose>
+						<c:when test="${bMap.postList == null }">
+							<div id="postTitle" class="text-left">
+								<strong>등록된 글이 없습니다.</strong>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div id="postTitle" class="text-left">
+								<strong>등록된 글이 없습니다.</strong>
+							</div>
+							<div id="postDate" class="text-left">
+								<strong>2020/07/23</strong>
+							</div>
+							<div id="postNick">${bMap.blogVo.username}(${bMap.blogVo.id})님</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<!-- //postBox -->
 
-				<div id="post">대통령은 법률이 정하는 바에 의하여 사면·감형 또는 복권을 명할 수 있다. 대통령의 임기는 5년으로 하며, 중임할 수 없다. 법관은 탄핵 또는 금고 이상의 형의 선고에 의하지 아니하고는 파면되지 아니하며, 징계처분에 의하지 아니하고는 정직·감봉 기타 불리한 처분을 받지 아니한다.</div>
+				<div id="post">글이없습니다</div>
 				<!-- //post -->
 
 				<!-- 글이 없는 경우 -->
@@ -80,34 +88,17 @@
 					<div id="listTitle" class="text-left">
 						<strong>카테고리의 글</strong>
 					</div>
-					<table>
+					<table id="postTable">
 						<colgroup>
 							<col style="">
 							<col style="width: 20%;">
 						</colgroup>
-
-						<tr>
-							<td class="text-left"><a href="">08.페이징</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">07.첨부파일_MultipartResolver</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">06.jquery_ajax</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">05.javaScript</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">04.spring_어플리케이션_아키텍쳐</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-
-
+						<c:forEach items="${bMap.postList}" var="vo">
+							<tr>
+								<td id="titles" class="text-left" data-postno="${vo.postNo}"><a href="">${vo.postTitle}</a></td>
+								<td class="text-right">${vo.regDate}</td>
+							</tr>
+						</c:forEach>
 					</table>
 				</div>
 				<!-- //list -->
@@ -125,5 +116,39 @@
 
 	</div>
 	<!-- //wrap -->
+	<input id="cate_id" type="hidden" name="id" value="${bMap.blogVo.id}">
 </body>
+
+<script type="text/javascript">
+	$("#postTable").on("click","#titles",function(){
+		event.preventDefault();
+		
+		var postNo = $(this).data("postno");
+		console.log(postNo);
+		var id = $("#cate_id").val();
+		console.log(id);
+		
+		$.ajax({
+
+			url : "${pageContext.request.contextPath }/"+id+"/admin/post", //컨트롤러의 url과 파라미터
+			type : "post", // 겟 포스트
+			//contentType : "application/json",
+			data : {postNo: postNo},
+
+			dataType : "json",
+			success : function(postVo) { //성공시
+				console.log(postVo);
+			
+			//1.이제 테이블을 함수로 만들어서 거기에 값을 넣어주고 뿌려주기하면됌
+			//2.post가 없을 경우 뿌리기와  3. 페이지 켜졌을때 뿌려주기도 해줘야함
+			},
+			error : function(XHR, status, error) { //실패
+				console.error(status + " : " + error);
+			}
+		});
+		
+	});
+	
+</script>
+
 </html>
