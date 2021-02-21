@@ -138,8 +138,8 @@ delete from blog;
 delete from users;
 
 update blog
-SET blogtitle = '밥먹었블로그',
-logofile = ''
+SET blogtitle = '밥먹었블로그'
+,logofile = ''
 where id = '초사이언';
 
 select seq_category_no.nextval
@@ -220,3 +220,20 @@ where cateno = 1;
 select count(*) as postCnt
 from post
 where cateno = 20;
+
+select postno,
+       cateno,
+       posttitle,
+       postcontent,
+       reg_date as regDate
+from post
+where cateNo= 1
+order by postno desc;
+
+select postno,
+       cateno,
+       posttitle,
+       postcontent,
+       reg_date as regDate
+from post
+

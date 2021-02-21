@@ -69,6 +69,8 @@ public class BlogController {
 		System.out.println(blogTitle);
 		System.out.println(file.getOriginalFilename());
 		
+		
+		
 		blogService.basicUpdate(userId, blogTitle,file);
 		
 		return "redirect:/"+userId+"/admin/basic";

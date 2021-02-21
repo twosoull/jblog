@@ -38,13 +38,28 @@
 	</insert>
 	<select id="selectOnePost" parameterType="int" resultType="PostVo">
 		<![CDATA[
-			select postno,
-			       cateno,
-			       posttitle,
-			       postcontent,
-			       reg_date as regDate
-			from post
-			WHERE postno = #{postNo}		
+			select o.postno,
+			       o.cateno,
+			       o.posttitle,
+			       o.postcontent,
+			       o.regDate,
+			       o.id,
+			       s.username
+			from users s ,(select p.postno,
+			                     p.cateno,
+			                     p.posttitle,
+			                     p.postcontent,
+			                     p.regDate,
+			                     c.id
+			             from category c,(select postno,
+			                                     cateno,
+			                                     posttitle,
+			                                     postcontent,
+			                                     reg_date as regDate
+			                              from post
+			                              WHERE postno= #{postNo}) p
+			             where c.cateno = p.cateno) o
+			where o.id = s.id	
 		]]>
 	</select>
 	

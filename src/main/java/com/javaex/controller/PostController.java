@@ -74,4 +74,18 @@ public class PostController {
 			
 			return postVo;
 		}
-}
+		
+		@ResponseBody
+		@RequestMapping(value = "/{userId}/admin/lastpost", method = { RequestMethod.GET, RequestMethod.POST })
+		public PostVo adminLastPost(@PathVariable String userId,
+									@RequestParam(value="cateNo",required=false,defaultValue = "0")int cateNo) {
+			System.out.println("[BlogController] : adminpost");
+			
+			
+			
+			PostVo postVo = postService.adminLastPost(userId,cateNo);
+			
+			
+			return postVo;
+		}
+}	

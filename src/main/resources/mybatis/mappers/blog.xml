@@ -30,16 +30,16 @@
 	<update id="updateBlog" parameterType="BlogVo">
 		<![CDATA[
 			update blog
-			SET blogtitle = #{blogTitle},
+			SET blogtitle = #{blogTitle}
 			
 		]]>
 		<if test="logoFile != null and logoFile != '' ">
-			logofile = #{logoFile}
+			,logofile = #{logoFile}
 		</if>
 		<![CDATA[
 			where id = #{id}			
 		]]>
-					
-	
+
+
 	</update>
 </mapper>

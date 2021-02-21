@@ -32,7 +32,7 @@ public class BlogDao {
 
 	public void update(BlogVo blogVo) {
 		System.out.println("[BlogDao] : update");
-		System.out.println(blogVo+"gg");
+		System.out.println("여기가?"+blogVo+"gg");
 		
 		sqlSession.update("blog.updateBlog",blogVo);
 		

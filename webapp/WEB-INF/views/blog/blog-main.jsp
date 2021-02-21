@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>JBlog</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
 </head>
 
 <body>
@@ -50,26 +50,23 @@
 
 			<div id="post_area">
 				<div id="postBox" class="clearfix">
-					<c:choose>
-						<c:when test="${bMap.postList == null }">
+
+
+
 							<div id="postTitle" class="text-left">
 								<strong>등록된 글이 없습니다.</strong>
 							</div>
-						</c:when>
-						<c:otherwise>
-							<div id="postTitle" class="text-left">
-								<strong>등록된 글이 없습니다.</strong>
-							</div>
+					<!-- 
 							<div id="postDate" class="text-left">
 								<strong>2020/07/23</strong>
 							</div>
 							<div id="postNick">${bMap.blogVo.username}(${bMap.blogVo.id})님</div>
-						</c:otherwise>
-					</c:choose>
+						 -->
+
 				</div>
+				<div id="post">글이없습니다</div>
 				<!-- //postBox -->
 
-				<div id="post">글이없습니다</div>
 				<!-- //post -->
 
 				<!-- 글이 없는 경우 -->
@@ -117,38 +114,97 @@
 	</div>
 	<!-- //wrap -->
 	<input id="cate_id" type="hidden" name="id" value="${bMap.blogVo.id}">
+	<input id="cate_no" type="hidden" name="cateno" value="${param.cateNo}">
 </body>
 
 <script type="text/javascript">
-	$("#postTable").on("click","#titles",function(){
+	//첫화면 포스트 글 뿌리기
+	$("document").ready(
+			function() {
+				console.log("준비");
+
+				var id = $("#cate_id").val();
+				console.log(id);
+				
+				var cateNo = $("#cate_no").val();
+				console.log(cateNo);
+				
+				$.ajax({
+
+					url : "${pageContext.request.contextPath }/" + id
+							+ "/admin/lastpost", //컨트롤러의 url과 파라미터
+					type : "post", // 겟 포스트
+					//contentType : "application/json",
+					data : {cateNo : cateNo},
+
+					dataType : "json",
+					success : function(postVo) { //성공시
+						if(postVo == null){
+							
+						}else{
+						console.log(postVo);
+
+						postWrite(postVo);
+						}
+						//2.post가 없을 경우 뿌리기와  3. 페이지 켜졌을때 뿌려주기도 해줘야함
+					},
+					error : function(XHR, status, error) { //실패
+						console.error(status + " : " + error);
+					}
+				});
+			});
+	//포스트 글 뿌리기
+	$("#postTable").on("click", "#titles", function() {
 		event.preventDefault();
-		
+
 		var postNo = $(this).data("postno");
 		console.log(postNo);
 		var id = $("#cate_id").val();
 		console.log(id);
-		
+
 		$.ajax({
 
-			url : "${pageContext.request.contextPath }/"+id+"/admin/post", //컨트롤러의 url과 파라미터
+			url : "${pageContext.request.contextPath }/" + id + "/admin/post", //컨트롤러의 url과 파라미터
 			type : "post", // 겟 포스트
 			//contentType : "application/json",
-			data : {postNo: postNo},
+			data : {
+				postNo : postNo
+			},
 
 			dataType : "json",
 			success : function(postVo) { //성공시
 				console.log(postVo);
-			
-			//1.이제 테이블을 함수로 만들어서 거기에 값을 넣어주고 뿌려주기하면됌
-			//2.post가 없을 경우 뿌리기와  3. 페이지 켜졌을때 뿌려주기도 해줘야함
+
+				//1.이제 테이블을 함수로 만들어서 거기에 값을 넣어주고 뿌려주기하면됌
+				postWrite(postVo);
+
+				//2.post가 없을 경우 뿌리기와  3. 페이지 켜졌을때 뿌려주기도 해줘야함
 			},
 			error : function(XHR, status, error) { //실패
 				console.error(status + " : " + error);
 			}
 		});
-		
+
 	});
-	
+
+	function postWrite(postVo) {
+		console.log("하이하이")
+
+		str = "";
+		str += '<div id="postTitle" class="text-left">';
+		str += '	<strong>' + postVo.postTitle + '</strong>';
+		str += '</div>';
+		str += '<div id="postDate" class="text-left">';
+		str += '	<strong>' + postVo.regDate + '</strong>';
+		str += '</div>';
+		str += '<div id="postNick">' + postVo.userName + '(' + postVo.id
+				+ ')님</div>';
+
+		post = postVo.postContent;
+
+		$("#postBox").html(str);
+		$("#post").text(post);
+	}
 </script>
 
 </html>

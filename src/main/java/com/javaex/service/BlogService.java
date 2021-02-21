@@ -85,17 +85,20 @@ public class BlogService {
 		//기본설정수정
 		public void basicUpdate(String userId, String blogTitle, MultipartFile file) {
 			System.out.println("[BlogService ] : basicUpdate");
-			String logoFile = "";
 			System.out.println("확인 :"+file.getOriginalFilename());
 			
-			BlogVo blogVo = new BlogVo(userId, blogTitle);
 			
+			
+			String orgName = file.getOriginalFilename();
 			
 			//logofile 이름만들기
-			if(!"".equals(file.getOriginalFilename())) {
+			if(!"".equals(orgName)) {
+				
+				String logoFile = "";
+			BlogVo blogVo = new BlogVo(userId, blogTitle);
+			
 			System.out.println("in");
 			String pathName = "C:\\javaStudy\\workspace_web\\jblog\\webapp\\assets\\uploadfile";
-			String orgName = file.getOriginalFilename();
 			String exName = orgName.substring(orgName.lastIndexOf("."));
 			
 			//저장할때의 이름
@@ -118,9 +121,13 @@ public class BlogService {
 					e.printStackTrace();
 				}
 				
+				blogDao.update(blogVo);
+			}else if("".equals(orgName)){
+				System.out.println("ㅎㅇㅎㅇ");
+				BlogVo blogVo = new BlogVo(userId, blogTitle,"");
+				blogDao.update(blogVo);
 			}
 			
-			blogDao.update(blogVo);
 			
 			
 		}
