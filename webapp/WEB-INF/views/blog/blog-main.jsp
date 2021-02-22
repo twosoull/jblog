@@ -53,9 +53,9 @@
 
 
 
-							<div id="postTitle" class="text-left">
-								<strong>등록된 글이 없습니다.</strong>
-							</div>
+					<div id="postTitle" class="text-left">
+						<strong>등록된 글이 없습니다.</strong>
+					</div>
 					<!-- 
 							<div id="postDate" class="text-left">
 								<strong>2020/07/23</strong>
@@ -65,40 +65,41 @@
 
 				</div>
 				<div id="post">글이없습니다</div>
-				<!-- //postBox -->
-
-				<!-- //post -->
-
-				<!-- 글이 없는 경우 -->
-				<!-- 
-				<div id="postBox" class="clearfix">
-							<div id="postTitle" class="text-left"><strong>등록된 글이 없습니다.</strong></div>
-							<div id="postDate" class="text-left"><strong></strong></div>
-							<div id="postNick"></div>
-				</div>
-			    
-				<div id="post" >
-				</div>
-				-->
-
-				<div id="list">
-					<div id="listTitle" class="text-left">
-						<strong>카테고리의 글</strong>
-					</div>
-					<table id="postTable">
-						<colgroup>
-							<col style="">
-							<col style="width: 20%;">
-						</colgroup>
-						<c:forEach items="${bMap.postList}" var="vo">
+				
+					<table id="" border="1">
+						<c:if test="${authUser != null}">
 							<tr>
-								<td id="titles" class="text-left" data-postno="${vo.postNo}"><a href="">${vo.postTitle}</a></td>
-								<td class="text-right">${vo.regDate}</td>
+								<td>${authUser.userName}</td>
+								<td><input type="text" name="postOne"></td>
+								<td><button id="btn_cmt" type="submit">저장</button></td>
 							</tr>
-						</c:forEach>
+						</c:if>
 					</table>
-				</div>
-				<!-- //list -->
+		
+					<div id = "cntform">
+						
+					</div>
+
+
+
+					<div id="list">
+						<div id="listTitle" class="text-left">
+							<strong>카테고리의 글</strong>
+						</div>
+						<table id="postTable">
+							<colgroup>
+								<col style="">
+								<col style="width: 20%;">
+							</colgroup>
+							<c:forEach items="${bMap.postList}" var="vo">
+								<tr>
+									<td id="titles" class="text-left" data-postno="${vo.postNo}"><a href="">${vo.postTitle}</a></td>
+									<td class="text-right">${vo.regDate}</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+					<!-- //list -->
 			</div>
 			<!-- //post_area -->
 
@@ -125,28 +126,34 @@
 
 				var id = $("#cate_id").val();
 				console.log(id);
-				
+
 				var cateNo = $("#cate_no").val();
 				console.log(cateNo);
-				
+
 				$.ajax({
 
 					url : "${pageContext.request.contextPath }/" + id
 							+ "/admin/lastpost", //컨트롤러의 url과 파라미터
 					type : "post", // 겟 포스트
 					//contentType : "application/json",
-					data : {cateNo : cateNo},
+					data : {
+						cateNo : cateNo
+					},
 
 					dataType : "json",
 					success : function(postVo) { //성공시
-						if(postVo == null){
-							
-						}else{
-						console.log(postVo);
+						if (postVo == null) {
 
-						postWrite(postVo);
+						} else {
+							console.log(postVo);
+
+							postWrite(postVo);
 						}
 						//2.post가 없을 경우 뿌리기와  3. 페이지 켜졌을때 뿌려주기도 해줘야함
+
+						//4.코멘트
+
+						comments(postVo);
 					},
 					error : function(XHR, status, error) { //실패
 						console.error(status + " : " + error);
@@ -187,6 +194,53 @@
 
 	});
 
+	//댓글 등록
+	function comments(postVo) {
+
+		var postNo = postVo.postNo;
+		console.log("postNo" + postNo);
+
+		$.ajax({
+
+			url : "${pageContext.request.contextPath }/comment/lastComment", //컨트롤러의 url과 파라미터
+			type : "post", // 겟 포스트
+			//contentType : "application/json",
+			data : {
+				postNo : postNo
+			},
+
+			dataType : "json",
+			success : function(commentList) { //성공시
+				console.log(commentList);
+			
+				comments();
+			},
+			error : function(XHR, status, error) { //실패
+				console.error(status + " : " + error);
+			}
+		});
+
+	}
+
+	$("#btn_cmt").on("click", function() {
+		console.log("코멘트 버튼")
+
+	});
+	
+	//코멘트들 뿌리기
+	function comments() {
+
+		str = "";
+		str += '<table id = "cnttable">';
+		str += '	<tr>';
+		str += '		<td id="" class="text-left">이영훈</td>';
+		str += '		<td class="text-mid">안녕하세요</td>';
+		str += '		<td class="text-right">안녕하세요</td>';
+		str += '	</tr>';
+		str += '</table>';
+		
+		$("#cntform").append(str);
+	}
 	function postWrite(postVo) {
 		console.log("하이하이")
 

@@ -7,6 +7,7 @@
         	<typeAlias alias = "BlogVo" type="com.javaex.vo.BlogVo"/> 
         	<typeAlias alias = "CategoryVo" type="com.javaex.vo.CategoryVo"/> 
         	<typeAlias alias = "PostVo" type="com.javaex.vo.PostVo"/> 
+        	<typeAlias alias = "CommentVo" type="com.javaex.vo.CommentVo"/> 
         	
     </typeAliases>
 
@@ -16,5 +17,6 @@
         <mapper resource="mybatis/mappers/blog.xml" /> <!--사용할 mapper 파일경로 지정한다-->
         <mapper resource="mybatis/mappers/category.xml" /> <!--사용할 mapper 파일경로 지정한다-->
         <mapper resource="mybatis/mappers/post.xml" /> <!--사용할 mapper 파일경로 지정한다-->
+        <mapper resource="mybatis/mappers/comment.xml" /> <!--사용할 mapper 파일경로 지정한다-->
     </mappers>
 </configuration>
