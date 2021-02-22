@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.BlogService;
 import com.javaex.service.UserService;
@@ -78,4 +80,21 @@ public class UsersController {
 		
 		return "redirect:/";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/checkid", method = { RequestMethod.GET, RequestMethod.POST })
+	public String checkid(@RequestParam("id")String id) {
+		System.out.println("[UserController ] : idcheck");
+		System.out.println(id);
+		
+		if("".equals(id) ) {
+			
+			return "fail";
+		}else {
+			String result = userService.checkid(id);
+			
+			return result;
+		}
+	}
+	
 }

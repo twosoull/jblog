@@ -38,4 +38,16 @@
 		]]>
 	
 	</select>
+	
+	<select id="selectUserOne2" parameterType="string" resultType="UserVo">
+		<![CDATA[
+			SELECT userno,
+			       username,
+			       id,
+			       password,
+			       joindate
+			FROM USERS
+			WHERE ID = #{id}		
+		]]>
+	</select>
 </mapper>

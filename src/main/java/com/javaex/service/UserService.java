@@ -32,4 +32,20 @@ public class UserService {
 		return userDao.selectUserList();
 	}
 
+	public String checkid(String id) {
+		System.out.println("[UserService] : checkid()");
+		
+		UserVo userVo = userDao.selectUserOne(id);
+		System.out.println(userVo);
+		
+		String result = "";
+		if(userVo == null) {
+			result = "can";
+		}else {
+			result = "cant";
+		}
+		
+		return result;
+	}
+
 }

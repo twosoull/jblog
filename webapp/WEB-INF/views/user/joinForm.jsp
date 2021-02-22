@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
-
+<script type="text/javascript" src="/jqueryex/jquery/jquery-1.12.4.js"></script>
 </head>
 <body>
 	<div id="center-content">
@@ -23,14 +23,14 @@
 						<col style="width: 170px;">
 						<col style="">
 					</colgroup>
-		      		<tr>
+		      		<tr id= "id-chenck">
 		      			<td><label for="txtId">아이디</label></td>
 		      			<td><input id="txtId" type="text" name="id"></td>
 		      			<td><button id="btnIdCheck" type="button">아이디체크</button></td>
 		      		</tr>
 		      		<tr>
 		      			<td></td>
-		      			<td id="tdMsg" colspan="2">사용할 수 있는 아이디 입니다.</td>
+		      			<td id="tdMsg" colspan="2"></td>
 		      		</tr> 
 		      		<tr>
 		      			<td><label for="txtPassword">패스워드</label> </td>
@@ -64,6 +64,87 @@
 	</div>
 
 </body>
+<script type="text/javascript">
+	$("#id-chenck").on("click","#btnIdCheck",function(){
+		var id = $("#txtId").val();
+		console.log(id);
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath }/user/checkid",  //컨트롤러의 url과 파라미터
+			type : "post",	// 겟 포스트
+			//contentType : "application/json",
+			data : { id:id },
 
+			dataType : "json",
+			success : function(result){  //성공시
+				if(result == 'can'){
+					$("#tdMsg").text("사용할 수 있는 아이디입니다.")
+				}else if(result=='cant'){
+					$("#tdMsg").text("다른 아이디로 가입해 주세요.")
+				}else if(result =='fail'){
+					$("#tdMsg").text("다른 아이디로 가입해 주세요.")
+				}
+
+			},
+			error : function(XHR, status, error) { //실패
+				console.error(status + " : " + error);
+			}
+		});
+		
+		
+		
+	});
+	
+	
+	$("#joinForm").on("submit",function(){
+		console.log("하이하이");
+		
+		var id = $("#txtId").val();
+		console.log(id);
+		var password = $("#txtPassword").val();
+		console.log(password);
+		var userName = $("#txtUserName").val();
+		console.log(userName);
+		var tdMsg = $("#tdMsg").text();
+		console.log(tdMsg);
+		
+		var check = $("#chkAgree").is(":checked");
+		console.log(check);
+		
+		if(id == ''){
+			alert("아이디를 입력해주세요");
+			return false;
+		}
+		
+		if(tdMsg == '' ){
+			alert("아이디 중복체크를 해주세요.");
+			return false;
+		}
+		if(tdMsg == '다른 아이디로 가입해 주세요.'){
+			alert("사용할 수 없는 아이디입니다");
+			
+			return false;
+		}
+		
+		if( password == ''){
+			alert("패스워드를 입력해주세요.")
+			return false;
+		}
+		if(userName == ''){
+			alert("이름을 입력해주세요.");
+			return false;
+		}
+		
+		if(!check){
+			alert("약관에 동의해 주세요");
+			return false;
+		}
+		
+		return true;
+	});
+	
+
+</script>
 
 </html>
