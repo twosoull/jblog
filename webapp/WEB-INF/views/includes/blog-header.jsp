@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div id="header" class="clearfix">
 	<h1>
-		<a href="">${bMap.blogVo.blogTitle}</a>
+		<a href="${pageContext.request.contextPath}/${bMap.blogVo.id}">${bMap.blogVo.blogTitle}</a>
 	</h1>
 	<ul class="clearfix">
 		<!-- 로그인 전 메뉴 -->

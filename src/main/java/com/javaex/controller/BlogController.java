@@ -57,6 +57,7 @@ public class BlogController {
 
 			return "/blog/admin/blog-admin-basic";
 		} else {
+			System.out.println("메인");
 			return "redirect:/";
 		}
 	}
@@ -73,7 +74,10 @@ public class BlogController {
 		
 		blogService.basicUpdate(userId, blogTitle,file);
 		
-		return "redirect:/"+userId+"/admin/basic";
+		String redirect = "redirect:/{userId}/admin/basic";
+		
+		System.out.println(redirect);
+		return redirect;
 	}
 
 

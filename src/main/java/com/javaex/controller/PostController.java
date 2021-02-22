@@ -62,7 +62,7 @@ public class PostController {
 			postService.adminwrite(postVo);
 			
 		
-			return "redirect:/"+userId+"/admin/writeForm";
+			return "redirect:/{userId}/admin/writeForm";
 			
 		}
 		@ResponseBody
